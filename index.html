@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React!</title>
+    <script src="./bower_components/react/react.js"></script>
+    <script src="./bower_components/react/JSXTransformer.js"></script>
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+
+  </head>
+  <body>
+      <div class="row spacer">
+          <div class="col-lg-4 col-lg-offset-4">
+            <div id="example"></div>
+          </div>
+      </div>
+    <script type="text/jsx">
+      var Movie = React.createClass({
+        render: function () {
+            return (
+              <div className="row">
+                <div className="span4"><span>{this.props.movie.title}</span></div><div class="span4">{this.props.movie.duration}</div>
+              </div>
+            );
+        }
+      });
+      var MovieList = React.createClass({
+        render: function () {
+        var rows = this.props.movies.map(function(movie){
+            return <Movie key={movie.title} movie={movie}/>
+        });
+        return <div className="container">
+           {rows}
+        </div>
+        }
+      });
+
+      var movies = [
+        {title:'test1',duration:0},
+        {title:'test2',duration:1},
+        {title:'test3',duration:2}
+      ];
+
+      React.render(
+        <MovieList movies={movies}/>,document.getElementById('example')
+      );
+    </script>
+  </body>
+</html>
