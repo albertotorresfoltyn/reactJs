@@ -6,45 +6,86 @@
     <title>Hello React!</title>
     <script src="./bower_components/react/react.js"></script>
     <script src="./bower_components/react/JSXTransformer.js"></script>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
   </head>
   <body>
-      <div class="row spacer">
-          <div class="col-lg-4 col-lg-offset-4">
-            <div id="example"></div>
-          </div>
+      <div class="row">
+        <div class="col s12 m6 offset-m3 l4 offset-l4">
+          <div id="example"></div>
+        </div>
       </div>
     <script type="text/jsx">
-      var Movie = React.createClass({
+      var BlogEntry = React.createClass({
         render: function () {
             return (
-              <div className="row">
-                <div className="span4"><span>{this.props.movie.title}</span></div><div class="span4">{this.props.movie.duration}</div>
-              </div>
+                <div className="row">
+                 {this.props.blog.title} <div class="span4">{this.props.blog.duration}</div>
+                </div>
             );
         }
       });
-      var MovieList = React.createClass({
+      var BlogList = React.createClass({
         render: function () {
-        var rows = this.props.movies.map(function(movie){
-            return <Movie key={movie.title} movie={movie}/>
-        });
-        return <div className="container">
-           {rows}
-        </div>
+          var props = this.props;
+          var rows = this.props.blogs.filter(function(blog){return blog.title.toLowerCase().indexOf(props.filterText.toLowerCase())>-1; }).map(function(blog){
+            return <BlogEntry key={blog.title} blog={blog} />
+          });
+        return  <div className="row spacer">
+                 <div className="col-lg-4 col-lg-offset-4">
+                  {rows}
+                 </div>
+                </div>
         }
       });
 
-      var movies = [
-        {title:'test1',duration:0},
-        {title:'test2',duration:1},
-        {title:'test3',duration:2}
+      var SearchBar = React.createClass({
+        handleChange: function () {
+          this.props.onFilterInput(this.refs.filterTextInput.getDOMNode().value);
+        },
+        render: function () {
+          return <div className="row">
+                   <div className="col-lg-4 col-lg-offset-4">
+                    <input type="search" class="form-control" onChange={this.handleChange} placeholder="Search for an entry" value={this.props.filterText} ref="filterTextInput"/>
+                   </div>  
+                 </div>
+        }
+      });
+
+      var FilterableBlogTable = React.createClass({
+        getInitialState: function () {
+          return {
+              filterText: 'entry1'
+          }
+        },
+        handleInputBox: function (filterText) {
+          this.setState({
+            filterText: filterText
+          });
+        },
+        render: function () {
+          return <div className="spacer">
+                  <SearchBar onFilterInput={this.handleInputBox} filterText={this.state.filterText} />
+                  <BlogList blogs={this.props.blogs} filterText={this.state.filterText}/>
+                 </div>
+        }
+      });
+
+      var blogs = [
+        {title:'entry1',duration:0},
+        {title:'entry2',duration:1},
+        {title:'entry3',duration:2},
+        {title:'entry4',duration:1},
+        {title:'entry5',duration:2},
+        {title:'entry6',duration:1},
+        {title:'entry7',duration:2},
+        {title:'entry8',duration:1},
+        {title:'entry9',duration:2},
+        {title:'entry10',duration:1},
+        {title:'entry11',duration:2}
       ];
 
       React.render(
-        <MovieList movies={movies}/>,document.getElementById('example')
+        <FilterableBlogTable blogs={blogs}/>,document.getElementById('example')
       );
     </script>
   </body>
