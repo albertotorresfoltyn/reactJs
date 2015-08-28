@@ -17,16 +17,16 @@
       </div>
     <script type="text/jsx">
       var BlogEntry = React.createClass({
-        viewMore: function(i,j){
-          console.log('You clicked: ', i  );
+        handleClick: function (blog) {
+          this.props.expandEntry(blog);
         },
         render: function () {
-            var attributeId = this.props.blog.title;  
-            return (
-                <div className="row" onClick={this.viewMore.bind(this, attributeId)}>
-                 {this.props.blog.title} <div class="span4">{this.props.blog.duration}</div>
-                </div>
-            );
+          var attributeId = this.props.blog.title; 
+          return (
+            <div className="row" onClick={this.handleClick.bind(this,this.props.blog)}>
+             <div className="span4">{this.props.blog.title}</div><div className="span4">{this.props.blog.duration}</div>
+            </div>
+          );
         }
       });
 
@@ -34,7 +34,7 @@
         render: function () {
           var props = this.props;
           var rows = this.props.blogs.filter(function(blog){return blog.title.toLowerCase().indexOf(props.filterText.toLowerCase())>-1; }).map(function(blog){
-            return <BlogEntry key={blog.title} blog={blog} />
+            return <BlogEntry key={blog.title} blog={blog} expandEntry={props.expandEntry}/>
           });
         return  <div className="row spacer" >
                  <div className="col-lg-4 col-lg-offset-4">
@@ -51,7 +51,7 @@
         render: function () {
           return <div className="row">
                    <div className="col-lg-4 col-lg-offset-4">
-                    <input type="search" class="form-control" onChange={this.handleChange} placeholder="Search for an entry" value={this.props.filterText} ref="filterTextInput"/>
+                    <input type="search" className="form-control" onChange={this.handleChange} placeholder="Search for an entry" value={this.props.filterText} ref="filterTextInput"/>
                    </div>  
                  </div>
         }
@@ -64,6 +64,12 @@
               openedEntry: ''
           }
         },
+        expandEntry: function(i){
+          console.log('You clicked: ', i  );
+          this.setState({
+            openedEntry: i
+          });
+        },
         handleInputBox: function (filterText) {
           this.setState({
             filterText: filterText
@@ -72,23 +78,23 @@
         render: function () {
           return <div className="spacer">
                   <SearchBar onFilterInput={this.handleInputBox} filterText={this.state.filterText} />
-                  <BlogList blogs={this.props.blogs} filterText={this.state.filterText} openedEntry={this.state.openedEntry} />
+                  <BlogList blogs={this.props.blogs} filterText={this.state.filterText} openedEntry={this.state.openedEntry} expandEntry={this.expandEntry}/>
                  </div>
         }
       });
 
       var blogs = [
-        {title:'First Journey with react',text:'',duration:0},
-        {title:'Deeper look to react principles',text:'',duration:1},
-        {title:'Third day big changes',text:'',duration:2},
-        {title:'Fourth day, change display',text:'',duration:1},
-        {title:'reacting',text:'',duration:2},
-        {title:'over reacting',text:'',duration:1},
-        {title:'entry7',text:'',duration:2},
-        {title:'entry8',text:'',duration:1},
-        {title:'entry9',text:'',duration:2},
-        {title:'entry10',text:'',duration:1},
-        {title:'entry11',text:'',duration:2}
+        {title:'First Journey with react',text:'',comments:[],duration:0},
+        {title:'Deeper look to react principles',text:'',comments:[],duration:1},
+        {title:'Third day big changes',text:'',comments:[],duration:2},
+        {title:'Fourth day, change display',text:'',comments:[],duration:1},
+        {title:'reacting',text:'',comments:[],duration:2},
+        {title:'over reacting',text:'',comments:[],duration:1},
+        {title:'entry7',text:'',comments:[],duration:2},
+        {title:'entry8',text:'',comments:[],duration:1},
+        {title:'entry9',text:'',comments:[],duration:2},
+        {title:'entry10',text:'',comments:[],duration:1},
+        {title:'entry11',text:'',comments:[],duration:2}
       ];
       React.render(
         <FilterableBlogTable blogs={blogs}/>,document.getElementById('example')
