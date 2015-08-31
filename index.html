@@ -6,11 +6,12 @@
     <title>Hello React!</title>
     <script src="./bower_components/react/react.js"></script>
     <script src="./bower_components/react/JSXTransformer.js"></script>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="./bootstrap.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="./bootstrap-theme.css"> <!-- load bootstrap css -->
   </head>
   <body>
-      <div class="row">
-        <div class="col s12 m6 offset-m3 l4 offset-l4">
+      <div class="container">
+        <div class="col-lg-8">
           <div id="example"></div>
           xxx
         </div>
@@ -24,7 +25,7 @@
           var attributeId = this.props.blog.title; 
           return (
             <div className="row" onClick={this.handleClick.bind(this,this.props.blog)}>
-             <div className="span4">{this.props.blog.title}</div><div className="span4">{this.props.blog.duration}</div>
+             <div className="span4"><h2 className="post-title">{this.props.blog.title}</h2></div>
             </div>
           );
         }
@@ -38,7 +39,10 @@
           var attributeId = this.props.blog.title; 
           return (
             <div className="row" onClick={this.handleClick.bind(this,this.props.blog)}>
-             <div className="span4">{this.props.blog.title}</div>xxx<div className="span4">{this.props.blog.duration}</div>
+             <div className="span4"><h2 className="post-title">{this.props.blog.title}</h2></div>
+             <p>{this.props.blog.text}</p>
+             Comments:
+             Here I will iterate the tree and show comments, then will show a post your comment section
             </div>
           );
         }
@@ -55,8 +59,8 @@
               return <BlogEntry key={blog.title} blog={blog} expandEntry={props.expandEntry}/>
             }
           });
-        return  <div className="row spacer" >
-                 <div className="col-lg-4 col-lg-offset-4">
+        return  <div className="row" >
+                 <div className="col-lg-offset-4">
                   {rows}
                  </div>
                 </div>
@@ -69,7 +73,7 @@
         },
         render: function () {
           return <div className="row">
-                   <div className="col-lg-4 col-lg-offset-4">
+                   <div className="col-lg-offset-4">
                     <input type="search" className="form-control" onChange={this.handleChange} placeholder="Search for an entry" value={this.props.filterText} ref="filterTextInput"/>
                    </div>  
                  </div>
@@ -103,17 +107,17 @@
       });
 
       var blogs = [
-        {title:'First Journey with react',text:'',comments:[],duration:0},
-        {title:'Deeper look to react principles',text:'',comments:[],duration:1},
-        {title:'Third day big changes',text:'',comments:[],duration:2},
-        {title:'Fourth day, change display',text:'',comments:[],duration:1},
-        {title:'reacting',text:'',comments:[],duration:2},
+        {title:'First Journey with react',text:'This is an example ui for testing react. To add functionality to this I must. Then the wiki will grow a lot. My imagination is capped and can\'t imagine what to add ',comments:[{text:'this looks interesting', repplies: [],upvotes:10,downvotes:0},{}]},
+        {title:'Deeper look to react principles',text:'This is another article about how interesting can it be',comments:[],duration:1},
+        {title:'Third day big changes',text:'After the list, now we create the blog',comments:[]},
+        {title:'Fourth day, change display',text:'We add some more features',comments:[]},
+        {title:'reacting',text:'Now this is a full blog',comments:[]},
         {title:'over reacting',text:'',comments:[],duration:1},
-        {title:'entry7',text:'',comments:[],duration:2},
-        {title:'entry8',text:'',comments:[],duration:1},
-        {title:'entry9',text:'',comments:[],duration:2},
-        {title:'entry10',text:'',comments:[],duration:1},
-        {title:'entry11',text:'',comments:[],duration:2}
+        {title:'entry7',text:'',comments:[]},
+        {title:'entry8',text:'',comments:[]},
+        {title:'entry9',text:'',comments:[]},
+        {title:'entry10',text:'',comments:[]},
+        {title:'entry11',text:'',comments:[]}
       ];
       React.render(
         <FilterableBlogTable blogs={blogs}/>,document.getElementById('example')
