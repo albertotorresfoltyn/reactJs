@@ -1,0 +1,32 @@
+{
+  "name": "reactJs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "bundle.js",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "http-server": "^0.8.0",
+    "jsx-loader": "^0.13.2",
+    "react": "^0.13.3",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.0",
+    "jsx-loader": "^0.13.2",
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/albertotorresfoltyn/reactJs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/albertotorresfoltyn/reactJs/issues"
+  }
+}
