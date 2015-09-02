@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 'use strict'
 var React = require('react')
+var SearchBar = require('./SearchBar')
+var BlogList = require('./BlogList')
 module.exports = React.createClass({
 					getInitialState: function () {
 					  return {

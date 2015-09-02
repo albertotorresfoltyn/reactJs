@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Hello React!</title>
-    <script src="./bower_components/react/react.js"></script>
+    <script src="./node_modules/react/dist/react.js"></script>
     <script src="./bower_components/react/JSXTransformer.js"></script>
     <link rel="stylesheet" href="./bootstrap.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="./styles.css"> <!-- load bootstrap css -->
@@ -17,136 +17,11 @@
           <div id="example"></div>
         </div>
       </div>
-    <script type="text/jsx">
-
-      var Comment = React.createClass({
-        handleClick: function (what) {
-          console.log(what);
-        },
-        render: function() {
-          return (
-            <div>
-              <div> {this.props.comment.text}</div>
-              <div>
-               <small><span>{this.props.comment.author} </span>
-               <span className="vote" onClick={this.handleClick.bind(this,'up')}><i className="fa fa-thumbs-up fa-1">{this.props.comment.upvotes}</i></span>
-               <span> </span>
-               <span className="vote" onClick={this.handleClick.bind(this,'down')}><i className="fa fa-thumbs-down fa-1">{this.props.comment.downvotes}</i></span>
-               </small>
-              </div>
-            </div>
-          );
-        }
-      });
-
-      var BlogEntry = React.createClass({
-        handleClick: function () {
-          this.props.expandEntry(this.props.blog);
-        },
-        render: function () {
-          var attributeId = this.props.blog.title; 
-          return (
-            <div className="row" onClick={this.handleClick}>
-             <div className="span4"><h2 className="post-title">{this.props.blog.title}</h2></div>
-            </div>
-          );
-        }
-      });
-
-      var OpenedBlogEntry = React.createClass({
-        handleClick: function () {
-          this.props.expandEntry(this.props.blog);
-        },
-        render: function () {
-          var attributeId = this.props.blog.title; 
-          var comments = this.props.blog.comments.map(function(comment){
-            return (<Comment comment={comment}/>);
-          });
-          return (
-            <div className="row" onClick={this.handleClick}>
-             <div className="span4"><h2 className="post-title">{this.props.blog.title}</h2></div>
-             <p>{this.props.blog.text}</p>
-             <h3>Comments:</h3>
-             {comments}
-             </div>
-          );
-        }
-      });
-
-      var BlogList = React.createClass({
-        render: function () {
-          var props = this.props;
-          var rows = this.props.blogs.filter(function(blog){return blog.title.toLowerCase().indexOf(props.filterText.toLowerCase())>-1; }).map(function(blog){
-            if (blog.title == props.openedEntry) {
-              return <OpenedBlogEntry key={blog.title} blog={blog} expandEntry={props.expandEntry}/>
-            } else {
-              return <BlogEntry key={blog.title} blog={blog} expandEntry={props.expandEntry}/>
-            }
-          });
-        return  <div className="row" >
-                 <div className="col-lg-offset-4">
-                  {rows}
-                 </div>
-                </div>
-        }
-      });
-
-      var SearchBar = React.createClass({
-        handleChange: function () {
-          this.props.onFilterInput(this.refs.filterTextInput.getDOMNode().value);
-        },
-        render: function () {
-          return <div className="row">
-                   <div className="col-lg-offset-4">
-                    <input type="search" className="form-control" onChange={this.handleChange} placeholder="Search for an entry" value={this.props.filterText} ref="filterTextInput"/>
-                   </div>  
-                 </div>
-        }
-      });
-
-      var FilterableBlogTable = React.createClass({
-        getInitialState: function () {
-          return {
-              filterText: '',
-              openedEntry: ''
-          }
-        },
-        expandEntry: function(entry){
-          //console.log('You clicked: ', entry  );
-          this.setState({
-            openedEntry: entry.title
-          });
-        },
-        handleInputBox: function (filterText) {
-          this.setState({
-            filterText: filterText
-          });
-        },
-        render: function () {
-          return <div className="spacer">
-                  <SearchBar onFilterInput={this.handleInputBox} filterText={this.state.filterText} />
-                  <BlogList blogs={this.props.blogs} filterText={this.state.filterText} openedEntry={this.state.openedEntry} expandEntry={this.expandEntry}/>
-                 </div>
-        }
-      });
-
-      var blogs = [
-        {title:'First Journey with react',text:'This is an example ui for testing react. To add functionality to this I must. Then the wiki will grow a lot. My imagination is capped and can\'t imagine what to add ',comments:[{text:'this looks interesting', repplies: [],upvotes:10,downvotes:0, author: 'Alberto Torres'},
-                    {text:'this looks very interesting', repplies: [],upvotes:10,downvotes:0, author: 'Alberto Torres'}]},
-        {title:'Deeper look to react principles',text:'This is another article about how interesting can it be',comments:[],duration:1},
-        {title:'Third day big changes',text:'After the list, now we create the blog',comments:[]},
-        {title:'Fourth day, change display',text:'We add some more features',comments:[]},
-        {title:'reacting',text:'Now this is a full blog',comments:[]},
-        {title:'over reacting',text:'',comments:[],duration:1},
-        {title:'entry7',text:'',comments:[]},
-        {title:'entry8',text:'',comments:[]},
-        {title:'entry9',text:'',comments:[]},
-        {title:'entry10',text:'',comments:[]},
-        {title:'entry11',text:'',comments:[]}
-      ];
-      React.render(
-        <FilterableBlogTable blogs={blogs}/>,document.getElementById('example')
-      );
-    </script>
+      <!-- include the webpack-dev-server script so our scripts get reloaded when we make a change -->
+        <!-- we'll run the webpack dev server on port 8090, so make sure it is correct -->
+        <script src="http://localhost:8090/webpack-dev-server.js"></script>
+        <!-- include the bundle that contains all our scripts, produced by webpack -->
+        <!-- the bundle is served by the webpack-dev-server, so serve it also from localhost:8090 -->
+        <script type="text/javascript" src="http://localhost:8090/assets/bundle.js"></script>
   </body>
 </html>

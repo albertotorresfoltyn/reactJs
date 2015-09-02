@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 'use strict'
 var React = require('react')
+var BlogEntry = require('./BlogEntry')
+var OpenedBlogEntry = require('./OpenedBlogEntry')
 module.exports = React.createClass({
                   render: function () {
                     var props = this.props;

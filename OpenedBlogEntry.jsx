@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 'use strict'
 var React = require('react')
+var Comment = require('./Comment')
 module.exports = React.createClass({
 					handleClick: function () {
 					  this.props.expandEntry(this.props.blog);
